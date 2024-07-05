@@ -7,7 +7,7 @@ class PicoTts < Formula
   def install
     system "git", "submodule", "init"
     system "git", "submodule", "update"
-    system "sed", "-i", "s|/usr/share/pico-tts/|#{prefix}/usr/local/pico-tts/|", "pico-tts.c"
+    system "sed", "-i", "''","s|/usr/share/pico-tts/|#{prefix}/pico-tts/|", "pico-tts.c"
     system "make"
     system "make", "DESTDIR=#{prefix}/", "install"
   end
