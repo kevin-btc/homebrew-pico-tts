@@ -9,15 +9,16 @@ class PicoTts < Formula
     system "git", "submodule", "update"
     system "sed", "-i", "''", "s|/usr/share/pico-tts/|#{prefix}/pico-tts/|", "pico-tts.c"
 
-    # Supprimer les options -D et -t dans le Makefile
-    system "sed", "-i", "''", "s|install -D -s -t $(DESTDIR)/usr/lib/ ${TARGET_LIB}|mkdir -p $(DESTDIR)/usr/lib/ && install -s ${TARGET_LIB} $(DESTDIR)/usr/lib/|", "Makefile"
-    system "sed", "-i", "''", "s|install -D -s -t $(DESTDIR)/usr/bin/ pico-tts|mkdir -p $(DESTDIR)/usr/bin/ && install -s pico-tts $(DESTDIR)/usr/bin/|", "Makefile"
-    system "sed", "-i", "''", "s|install -D -m 0644 -t $(DESTDIR)/usr/share/pico-tts svox/pico/lang/*|mkdir -p $(DESTDIR)/usr/share/pico-tts && install -m 0644 svox/pico/lang/* $(DESTDIR)/usr/share/pico-tts/|", "Makefile"
-
     system "make"
 
-    # Utilisation de make install avec le bon DESTDIR
-    system "make", "DESTDIR=#{prefix}/", "install"
+    # Installation manuelle des fichiers
+    mkdir_p "#{lib}"
+    mkdir_p "#{bin}"
+    mkdir_p "#{share}/pico-tts"
+
+    system "install", "-s", "libsvoxpico.so", "#{lib}/"
+    system "install", "-s", "pico-tts", "#{bin}/"
+    system "install", "-m", "0644", *Dir["svox/pico/lang/*"], "#{share}/pico-tts/"
   end
 
   test do
