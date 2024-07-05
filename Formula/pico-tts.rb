@@ -16,8 +16,8 @@ class PicoTts < Formula
     mkdir_p "#{bin}"
     mkdir_p "#{share}/pico-tts"
 
-    system "install", "-s", "libsvoxpico.so", "#{lib}/"
-    system "install", "-s", "pico-tts", "#{bin}/"
+    system "install", "libsvoxpico.so", "#{lib}/"
+    system "install", "pico-tts", "#{bin}/"
     system "install", "-m", "0644", *Dir["svox/pico/lang/*"], "#{share}/pico-tts/"
   end
 
