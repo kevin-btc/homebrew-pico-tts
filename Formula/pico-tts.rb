@@ -9,14 +9,17 @@ class PicoTts < Formula
     system "git", "submodule", "update"
     system "sed", "-i", "''", "s|/usr/share/pico-tts/|#{prefix}/pico-tts/|", "pico-tts.c"
 
+    # Supprimer l'option -D dans le Makefile
     system "sed", "-i", "''", "s/install -D/install/", "Makefile"
-    
+
     system "make"
 
+    # Création des répertoires nécessaires
     mkdir_p "#{prefix}/usr/lib/"
     mkdir_p "#{prefix}/usr/bin/"
-    mkdir_p "#{prefix}/usr/share/""
+    mkdir_p "#{prefix}/usr/share/"
 
+    # Utilisation de make install avec le bon DESTDIR
     system "make", "DESTDIR=#{prefix}/", "install"
   end
 
@@ -24,3 +27,4 @@ class PicoTts < Formula
     system "#{bin}/pico-tts", "--version"
   end
 end
+
